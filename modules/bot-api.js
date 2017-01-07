@@ -19,3 +19,9 @@ function socBot(context) {
 		_context.config.botInfo.params
 	]);
 }
+
+socBot.prototype.sendMessage = function (to, messageText, params) {
+	//logging
+	//saving to db
+	socBot.super_.prototype.sendMessage.call(this, to.id, messageText, params);
+};
