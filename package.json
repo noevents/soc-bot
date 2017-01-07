@@ -1,0 +1,21 @@
+{
+  "name": "soc-bot",
+  "version": "1.0.0",
+  "description": "telegram soc bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon bot.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "mongoose": "^4.7.6",
+    "node-telegram-bot-api": "^0.25.0",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
