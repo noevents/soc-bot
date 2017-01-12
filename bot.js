@@ -1,23 +1,31 @@
 var router = require('./router.js');
 var socBot = require('./modules/bot-api.js');
-var Promise = require("bluebird");
-var request = require("request");
-Promise.promisifyAll(request);
-
+var reloadThread = require('./modules/thread-cache.js').reloadThread
 
 var context = {
 	config: require('./config/config.js'),
 	commands: require('./config/commands.js'),
-	storage: {}, //node-persist
+	storage: require("node-persist"),
 	log: {}, //winston
-	request: request.getAsync
+	request: require("request-promise")
 };
 
+setTimeout(function run() {
+	reloadThread(context);
+	//console.log('thread have been loaded')
+	setTimeout(run, 5000);
+}, 5000);
+
 try {
+	context.storage.initSync({dir: 'db'});
 	context.bot = new socBot(context);
 	context.bot.on('text', function (message) {
 		router.handle(context, message);
 	});
+	context.bot.on('callback_query', function (message) {
+		router.handleCallback(context, message);
+	});
+
 } catch (err) {
 	console.log(err)
 }

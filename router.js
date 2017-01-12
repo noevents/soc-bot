@@ -15,13 +15,38 @@ module.exports = {
 			// }
 		}
 	},
-	// handleCallback
+	handleCallback: function(ctx, message) {
+		try {
+			var route = require('./routes/thread-route.js');
+			route.handleCallback(ctx, message);
+		} catch (err) {
+			console.log(err)
+		}
+	},
 	// handleFile
 	sendBasicMessage: function (ctx, to, response) {
-		ctx.bot.sendMessage(to, response/*, {parse_mode: 'HTML', reply_markup: getReplyMarkups(ctx, to.id)}*/);
+		ctx.bot.sendMessage(to, response, {parse_mode: 'HTML', reply_markup: getReplyMarkups(ctx, to.id)});
 	}
 };
 
-//getReplyMarkups
-//isAuth
+function isAdmin(ctx, userId) {
+    return ctx.config.admin === userId;
+}
+
+function getReplyMarkups(ctx, userId) {
+	var replyMarkupArray = {keyboard: [[]], resize_keyboard: true};
+	var i = 0, j = 0, columnCount = 2;
+	for (var key in ctx.commands) {
+		if (!ctx.commands[key].hidden && (isAdmin(ctx, userId) || !ctx.commands[key].admin)) {
+			replyMarkupArray.keyboard[i].push(key);
+			j = (j < columnCount - 1) ? j + 1 : 0;
+			if (j == 0) {
+				replyMarkupArray.keyboard.push([]);
+				i++;
+			}
+		}
+	}
+	return JSON.stringify(replyMarkupArray);
+}
+
 //isAdmin

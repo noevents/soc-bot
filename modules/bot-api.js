@@ -20,8 +20,9 @@ function socBot(context) {
 	]);
 }
 
-socBot.prototype.sendMessage = function (to, messageText, params) {
-	//logging
-	//saving to db
-	socBot.super_.prototype.sendMessage.call(this, to.id, messageText, params);
+socBot.prototype.on = function (type, callback) {
+	socBot.super_.prototype.on.call(this, type, function (message) {
+		//logging
+		callback(message);
+	});
 };
