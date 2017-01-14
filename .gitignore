@@ -3,5 +3,9 @@ node_modules
 npm-debug.log
 log
 
+#mongoose api
+modules/db-api.js
+modules/user-model.js
+
 #Private config
 config/config.js

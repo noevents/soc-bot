@@ -15,8 +15,8 @@ socBot.prototype = Object.create(TelegramBot.prototype, {
 function socBot(context) {
 	_context = context;
 	socBot.super_.apply(this, [
-		_context.config.botInfo.token,
-		_context.config.botInfo.params
+		_context.config.botConfig.token,
+		_context.config.botConfig.params
 	]);
 }
 

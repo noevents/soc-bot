@@ -9,8 +9,10 @@ module.exports = {
 				session: {
 					route: null,
 					threadPosition: null,
-					editableMessageId: null
-				}
+					editableMessageId: null,
+					tgUsername: false
+				},
+				text: null
 			} 
 		} else user = user;
 

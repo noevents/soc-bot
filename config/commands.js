@@ -1,21 +1,21 @@
 module.exports = {
-	'Start': {
+	'start': {
 		'command': '/start',
 		'hidden': true,
 		'admin' : false
 	},
 	'Посмотреть тред': {
-		'command': 'thread',
+		'command': '/thread',
 		'hidden': false,
 		'admin' : false
 	},
 	'Моя анкета': {
-		'command': 'myprofile',
+		'command': '/profile',
 		'hidden': false,
 		'admin' : false
 	},
 	'Анкеты из бота': {
-		'command': 'profiles',
+		'command': '/profiles',
 		'hidden': false,
 		'admin' : false
 	}

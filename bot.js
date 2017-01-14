@@ -12,7 +12,7 @@ var context = {
 
 setTimeout(function run() {
 	reloadThread(context);
-	//console.log('thread have been loaded')
+	//console.log('thread has been loaded')
 	setTimeout(run, 5000);
 }, 5000);
 

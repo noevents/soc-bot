@@ -2,26 +2,53 @@ module.exports = {
 
 	handle: function (ctx, message) {
 		// if (isAuth())
-			var routeName = (message.text == '/start') ? 'start' : (ctx.commands[message.text] == null) ? null : ctx.commands[message.text].command;
+			var user = ctx.storage.getItemSync('user-' + message.from.id);
+			var routeName
+			var profileFilling = null
+			if(message.text.search(/\/\w+/) == 0){
+				routeName = null
+				for(var key in ctx.commands){
+					routeName = (ctx.commands[key].command == message.text) ? ctx.commands[key].command : null;
+					break
+				} 
+				
+			}else{
+				routeName = (ctx.commands[message.text] == null) ? null : ctx.commands[message.text].command;
+			}
+			if(user != null && user.session.route == 'profile' && routeName == null){
+				routeName = '/profile'
+				profileFilling = true
+			}else{
+				routeName = routeName
+			}
 			if (routeName != null) {
 				try {
-					var route = require('./routes/' + routeName + '-route.js');
-					route.handle(ctx, message, this.sendBasicMessage);
+					var route = require('./routes' + routeName + '-route.js');
+					route.handle(ctx, message, this.sendBasicMessage, profileFilling);
 				} catch (err) {
 					console.log(err);
 				}
 			} else {
-				this.sendBasicMessage(ctx, message.from, 'Непонятная команда');
-			// }
-		}
+				this.sendBasicMessage(ctx, message.from.id, 'Непонятная команда');
+			}
 	},
 	handleCallback: function(ctx, message) {
-		try {
-			var route = require('./routes/thread-route.js');
-			route.handleCallback(ctx, message);
-		} catch (err) {
-			console.log(err)
+		if(message.data == 'remove_username' || message.data == 'add_username'){
+			try {
+				var route = require('./routes/profile-route.js');
+				route.handleCallback(ctx, message);
+			} catch (err) {
+				console.log(err)
+			}
+		}else{
+			try {
+				var route = require('./routes/thread-route.js');
+				route.handleCallback(ctx, message);
+			} catch (err) {
+				console.log(err)
+			}
 		}
+		
 	},
 	// handleFile
 	sendBasicMessage: function (ctx, to, response) {
@@ -48,5 +75,3 @@ function getReplyMarkups(ctx, userId) {
 	}
 	return JSON.stringify(replyMarkupArray);
 }
-
-//isAdmin

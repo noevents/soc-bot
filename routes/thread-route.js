@@ -1,5 +1,4 @@
 var inlineButtons = require('../config/inline-buttons.js');
-var htmlToText = require('html-to-text');
 var threadCache = require('../modules/thread-cache.js');
 var threadNum;
 var thread;
@@ -43,14 +42,14 @@ function sendThread(ctx, user, response, button) {
 		})
 	}else{
 		ctx.bot.editMessageText(_response, {
-			chat_id: user.id,
+			chat_id: _user.id,
 			message_id: _user.session.editableMessageId,
 			reply_markup: JSON.stringify({inline_keyboard: threadPage.replyMarkupArray}) 
 		})
 	}
 	
 	_user.session.route = 'thread'
-	ctx.storage.setItem('user-' + user.id, _user);
+	ctx.storage.setItem('user-' + _user.id, _user);
 
 }
 
@@ -113,7 +112,7 @@ function getStartPosition(positionFromSession, buttn){
 	return position
 }
 
-function getPost(postNum){	//getting post from chashed thread
+function getPost(postNum){	//getting post from cached thread
 	var post
 	for(var key = 0; key<thread.length; key++){
 		if (postNum == thread[key].num){
